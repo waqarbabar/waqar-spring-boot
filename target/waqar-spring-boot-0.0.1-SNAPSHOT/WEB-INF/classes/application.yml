@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev		
+---
+spring:
+  profiles: dev
+  
+server:
+  port: 8080
+  
+default:
+  course:
+    name: Boot from YAML with default profile dev
+    chapterCount: 69
+
+course:
+  name: ABC
+  chapterCount: 99
+  rating: 9
+  auther: Mr. Waqar	
+  
+---
+spring:
+  profiles: qa
+  
+server:
+  port: 9091
+  
+default:
+  course:
+    name: Boot from YAML with default profile qa
+    chapterCount: 77
+
+course:
+  name: ABC
+  chapterCount: 66
+  rating: 9
+  auther: Mr. Waqar from qa profile
