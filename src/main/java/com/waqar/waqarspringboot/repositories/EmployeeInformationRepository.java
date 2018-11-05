@@ -9,5 +9,6 @@ import com.waqar.waqarspringboot.entity.EmployeeInformation;
 @Repository
 @Qualifier(value = "EmployeeInformationRepository")
 public interface EmployeeInformationRepository extends JpaRepository<EmployeeInformation, Long> {
+	EmployeeInformation findByPk(String pk);
 
 }
