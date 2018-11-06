@@ -1,10 +1,8 @@
 package com.waqar.waqarspringboot.service;
 
+import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import com.waqar.waqarspringboot.entity.CompanyRevenue;
 import com.waqar.waqarspringboot.entity.EmployeeInformation;
 import com.waqar.waqarspringboot.entity.OrderCollectionStatus;
 import com.waqar.waqarspringboot.entity.OrderReceived;
@@ -12,15 +10,15 @@ import com.waqar.waqarspringboot.entity.ProductCategory;
 
 public interface DashboardService {
 
-	List<CompanyRevenue> getTodayRevenueDash();
+	HashMap<String, Object> getTodayRevenueDash();
 
 	List<EmployeeInformation> getAllEmployee();
 
-	List<OrderCollectionStatus> getOrderCollection();
+	HashMap<String, Object> getOrderCollection();
 
-	List<OrderReceived> getAllOrderReceived();
+	HashMap<String, Object> getAllOrderReceived();
 
-	List<ProductCategory> getBestCategory();
+	HashMap<String, Object> getBestCategory();
 
 	EmployeeInformation addEmployee(EmployeeInformation employeeInformation);
 

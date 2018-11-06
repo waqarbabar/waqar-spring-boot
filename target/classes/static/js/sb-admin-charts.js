@@ -4,10 +4,16 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 // -- Area Chart Example
 var ctx = document.getElementById("myAreaChart");
+
+var orDate = $("#orDate").val();
+var oReceived = $("#oReceived").val();
+orDate = orDate.split(",");
+oReceived = oReceived.split(",");
+
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Mar 1", "Mar 2", "Mar 3", "Mar 4", "Mar 5", "Mar 6", "Mar 7", "Mar 8", "Mar 9", "Mar 10", "Mar 11", "Mar 12", "Mar 13"],
+    labels: orDate,
     datasets: [{
       label: "Orders",
       lineTension: 0.3,
@@ -20,7 +26,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBackgroundColor: "rgba(2,117,216,1)",
       pointHitRadius: 20,
       pointBorderWidth: 2,
-      data: [150, 165, 158, 155, 145, 176, 162, 159, 149, 167, 180, 150, 149],
+      data: oReceived,
     }],
   },
   options: {
@@ -38,9 +44,9 @@ var myLineChart = new Chart(ctx, {
       }],
       yAxes: [{
         ticks: {
-          min: 100,
-          max: 200,
-          maxTicksLimit: 5
+          min: 0,
+          max: 500,
+          maxTicksLimit: 50
         },
         gridLines: {
           color: "rgba(0, 0, 0, .125)",
@@ -55,8 +61,9 @@ var myLineChart = new Chart(ctx, {
 // -- Bar Chart Example
 
 var crLabels = $("#crLabels").val();
-
+var crRevenue = $("#crRevenue").val();
 crLabels = crLabels.split(",");
+crRevenue = crRevenue.split(",");
 
 var ctx = document.getElementById("myBarChart");
 var myLineChart = new Chart(ctx, {
@@ -67,7 +74,7 @@ var myLineChart = new Chart(ctx, {
       label: "Revenue",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      data: [23000, 31000, 32000, 36000, 37000, 45000],
+      data: crRevenue,
     }],
   },
   options: {
@@ -101,12 +108,18 @@ var myLineChart = new Chart(ctx, {
 });
 // -- Pie Chart Example
 var ctx = document.getElementById("myPieChart");
+
+var cName = $("#cName").val();
+var cPercentage = $("#cPercentage").val();
+cName = cName.split(",");
+cPercentage = cPercentage.split(",");
+
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
-    labels: ["Electronics", "Phone/iPad", "Purses", "Jwellery"],
+    labels: cName,
     datasets: [{
-      data: [12.21, 15.58, 11.25, 8.32],
+      data: cPercentage,
       backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
     }],
   },

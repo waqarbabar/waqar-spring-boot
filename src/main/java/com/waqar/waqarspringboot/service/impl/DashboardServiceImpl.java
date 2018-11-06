@@ -1,6 +1,10 @@
 package com.waqar.waqarspringboot.service.impl;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +20,7 @@ import com.waqar.waqarspringboot.repositories.OrderCollectionStatusRepository;
 import com.waqar.waqarspringboot.repositories.OrderReceivedRepository;
 import com.waqar.waqarspringboot.repositories.ProductCategoryRepository;
 import com.waqar.waqarspringboot.service.DashboardService;
+
 @Component
 public class DashboardServiceImpl implements DashboardService {
 
@@ -31,8 +36,33 @@ public class DashboardServiceImpl implements DashboardService {
 	private ProductCategoryRepository productCategoryRepository;
 
 	@Override
-	public List<CompanyRevenue> getTodayRevenueDash() {
-		return companyRevenueRepository.findAll();
+	public HashMap<String, Object> getTodayRevenueDash() {
+
+		HashMap<String, Object> map = new HashMap();
+		List<CompanyRevenue> list = companyRevenueRepository.findAll();
+		List<String> label = new ArrayList();
+		List<String> _revenue = new ArrayList();
+		double totalMargin = 0;
+		double totalExpense = 0;
+		double totalRevenue = 0;
+
+		Locale locale = new Locale("en", "US");
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+
+		for (CompanyRevenue companyRevenue : list) {
+			label.add(companyRevenue.get_month());
+			_revenue.add(String.valueOf(companyRevenue.getRevenue()));
+			totalExpense += companyRevenue.getExpense();
+			totalMargin += companyRevenue.getMargins();
+			totalRevenue += companyRevenue.getRevenue();
+		}
+		map.put("crLabels", label.toString());
+		map.put("crRevenue", _revenue.toString());
+		map.put("totalExpense", totalExpense);
+		map.put("totalMargin", totalMargin);
+		map.put("totalRevenue", totalRevenue);
+
+		return map;
 	}
 
 	@Override
@@ -41,18 +71,56 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	@Override
-	public List<OrderCollectionStatus> getOrderCollection() {
-		return orderCollectionStatusRepository.findAll();
+	public HashMap<String, Object> getOrderCollection() {
+		List<OrderCollectionStatus> list = orderCollectionStatusRepository.findAll();
+
+		HashMap<String, Object> map = new HashMap();
+		double totalNewOrders = 0;
+		double totalOrdersReturned = 0;
+		double totalRevenue = 0;
+		double totalShipped = 0;
+		for (OrderCollectionStatus orderCollectionStatus : list) {
+			totalNewOrders += orderCollectionStatus.getNewOrders();
+			totalOrdersReturned += orderCollectionStatus.getReturned();
+			totalRevenue += orderCollectionStatus.getRevenue();
+			totalShipped += orderCollectionStatus.getShipped();
+		}
+		map.put("oNew", totalNewOrders);
+		map.put("oReturned", totalOrdersReturned);
+		map.put("oRevenue", totalRevenue);
+		map.put("oShipped", totalShipped);
+		return map;
 	}
 
 	@Override
-	public List<OrderReceived> getAllOrderReceived() {
-		return orderReceivedRepository.findAll();
+	public HashMap<String, Object> getAllOrderReceived() {
+		HashMap<String, Object> map = new HashMap();
+		List<OrderReceived> list = orderReceivedRepository.findAll();
+		List<String> oDate = new ArrayList();
+		List<String> oReceived = new ArrayList();
+		for (OrderReceived orderReceived : list) {
+			oDate.add(orderReceived.getDateReceived());
+			oReceived.add(String.valueOf(orderReceived.getOrderReceived()));
+		}
+		map.put("oDate", oDate.toString());
+		map.put("oReceived", oReceived.toString());
+		return map;
 	}
 
 	@Override
-	public List<ProductCategory> getBestCategory() {
-		return productCategoryRepository.findByBestCategory(true);
+	public HashMap<String, Object> getBestCategory() {
+
+		HashMap<String, Object> map = new HashMap();
+		List<ProductCategory> list = productCategoryRepository.findByBestCategory(true);
+		List<String> cName = new ArrayList();
+		List<String> cPercentage = new ArrayList();
+		for (ProductCategory productCategory : list) {
+			cName.add(productCategory.getCategoryName());
+			cPercentage.add(String.valueOf(productCategory.getPercentage()));
+		}
+		map.put("cName", cName.toString());
+		map.put("cPercentage", cPercentage.toString());
+		return map;
 	}
 
 	@Override
